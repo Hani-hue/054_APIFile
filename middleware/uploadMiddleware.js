@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
     const extname = allowedTypes.test(
         path.extname(file.originalname).toLowerCase()
     );
-    
+
     const mimetype = allowedTypes.test(file.mimetype);
 
     if (extname && mimetype) {
@@ -26,3 +26,9 @@ const fileFilter = (req, file, cb) => {
         cb(new Error("Only images are allowed (jpeg, jpg, png)"));
     }
 };
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: fileFilter
+});
