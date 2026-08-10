@@ -6,14 +6,18 @@ const storage = multer.diskStorage({
         cb(null, "uploads/");
     },
     filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+        const uniqueName = Date.now() + "-" + file.originalname;
+        cb(null, uniqueName);
     }
 });
 
 const fileFilter = (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+
+    const extname = allowedTypes.test(
+        path.extname(file.originalname).toLowerCase()
+    );
+    
     const mimetype = allowedTypes.test(file.mimetype);
 
     if (extname && mimetype) {
